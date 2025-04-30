@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2025.3.17)  28 APR 2025 15:46
+This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2025.3.17)  30 APR 2025 23:44
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -696,71 +696,8 @@ Package: ragged2e 2023/06/22 v3.6 ragged2e Package
 \RaggedRightParindent=\skip119
 \JustifyingParindent=\skip120
 )
-
-./first.cls:216: LaTeX Error: No property given in definition of key 'class@key'.
-
-For immediate help type H <return>.
- ...                                              
-                                                  
-l.216 \DeclareKeys{class@key}
-                             
-
-This is a coding error.
-
-Inside \keys_define:nn each key name needs a property:
-
-    class@key.<property>
-
-LaTeX did not find a '.' to indicate the start of a property.
-
-
-
-./first.cls:217: LaTeX Error: Command \two@digits already defined.
-               Or name \end... illegal, see p.192 of the manual.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.217 ...wo@digits}[1]{\ifnum#1<10 0#1\else #1\fi}
-                                                  
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-
-./first.cls:229: Package kvsetkeys Error: Undefined key `date'.
-
-See the kvsetkeys package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.229 }
-       
-The keyval family of the key `date' is `class@key'.
-The setting of the key is ignored because of the error.
-
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-./first.cls:229: Package kvsetkeys Error: Undefined key `title'.
-
-See the kvsetkeys package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.229 }
-       
-The keyval family of the key `title' is `class@key'.
-The setting of the key is ignored because of the error.
-
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
 \class@pad@box=\box73
-)
-No file first.aux.
+) (./first.aux)
 \openout1 = `first.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 15.
@@ -839,6 +776,7 @@ LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
 (Font)                  OT1/cmss/bx/n --> TU/lmss/b/n on input line 15.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
 (Font)                  OT1/cmtt/m/n --> TU/lmtt/b/n on input line 15.
+
 *geometry* driver: auto-detecting
 *geometry* detected driver: xetex
 *geometry* verbose mode - [ preamble ] result:
@@ -878,11 +816,9 @@ Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: hyperref package is loaded.
 Package caption Info: End \AtBeginDocument code.
 Package hyperref Info: Link coloring OFF on input line 15.
+(./first.out) (./first.out)
 \@outlinefile=\write4
 \openout4 = `first.out'.
-
-
-Package hyperref Warning: Rerun to get /PageLabels entry.
 
 *geometry* verbose mode - [ newgeometry ] result:
 * driver: xetex
@@ -939,8 +875,31 @@ Package fontspec Info: Font family 'KaiTi(0)' created for font 'KaiTi' with
 (fontspec)             <->"KaiTi/OT:script=hani;language=dflt;"
 (fontspec)             - 'small caps'  (m/sc) with NFSS spec.: 
 
+
+Package fontspec Info: Could not resolve font "FangSong/BI" (it probably
+(fontspec)             doesn't exist).
+
+
+Package fontspec Info: Could not resolve font "FangSong/B" (it probably
+(fontspec)             doesn't exist).
+
+
+Package fontspec Info: Could not resolve font "FangSong/I" (it probably
+(fontspec)             doesn't exist).
+
+
+Package fontspec Info: Font family 'FangSong(0)' created for font 'FangSong'
+(fontspec)             with options [Script={CJK}].
+(fontspec)              
+(fontspec)              This font family consists of the following NFSS
+(fontspec)             series/shapes:
+(fontspec)              
+(fontspec)             - 'normal' (m/n) with NFSS spec.:
+(fontspec)             <->"FangSong/OT:script=hani;language=dflt;"
+(fontspec)             - 'small caps'  (m/sc) with NFSS spec.: 
+
 LaTeX Font Info:    Trying to load font information for U+msa on input line 16.
-(c:/Program Files/texlive/2024/texmf-dist/tex/latex/amsfonts/umsa.fd
+ (c:/Program Files/texlive/2024/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
 LaTeX Font Info:    Trying to load font information for U+msb on input line 16.
@@ -978,23 +937,16 @@ Package fontspec Info: Font family 'SimHei(0)' created for font 'SimHei' with
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2022/08/05>
  ***********
-
-
-Package rerunfilecheck Warning: File `first.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `first.out':
-(rerunfilecheck)             Before: <no file>
-(rerunfilecheck)             After:  D41D8CD98F00B204E9800998ECF8427E;0.
+Package rerunfilecheck Info: File `first.out' has not changed.
+(rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 22374 strings out of 474773
- 458832 string characters out of 5755059
- 1923842 words of memory out of 5000000
- 44184 multiletter control sequences out of 15000+600000
- 566021 words of font info for 92 fonts, out of 8000000 for 9000
+ 22405 strings out of 474773
+ 459520 string characters out of 5755059
+ 1924842 words of memory out of 5000000
+ 44212 multiletter control sequences out of 15000+600000
+ 567848 words of font info for 101 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 108i,8n,145p,419b,504s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 108i,8n,145p,419b,571s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
 Output written on first.pdf (2 pages).

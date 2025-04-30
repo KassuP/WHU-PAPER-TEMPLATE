@@ -213,19 +213,75 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 自定义隐式宏   使用\OOO@define@key{} 命令
-\DeclareKeys{class@key}
-\newcommand{\two@digits}[1]{\ifnum#1<10 0#1\else #1\fi}
+\SetupKeyvalOptions{
+  family=class,
+  prefix=class@,
+  setkeys=\kvsetkeys}
+\let\class@setup@hook\@empty
+\newcommand\classsetup[1]{%
+  \let\class@setup@hook\@empty
+  \kvsetkeys{class}{#1}%
+  \class@setup@hook
+}
 \newcommand\class@define@key[1]{%
   \kvsetkeys{class@key}{#1}%
 }
-\DeclareOption*{\def\@tempa##1{##1}}  % 处理未声明选项的方式
+\kv@set@family@handler{class@key}{%
+  \@namedef{class@#1@@name}{#1}%
+  \def\class@@default{}%
+  \def\class@@choices{}%
+  \kv@define@key{class@value}{name}{%
+    \@namedef{class@#1@@name}{##1}%
+  }%
+  \@namedef{class@#1@@check}{}%
+  \@namedef{class@#1@@code}{}%
+  \kv@define@key{class@value}{choices}{%
+    \def\class@@choices{##1}%
+    \@namedef{class@#1@@reset}{}%
+    \@namedef{class@#1@@check}{%
+      \@ifundefined{%
+        ifclass@\@nameuse{class@#1@@name}@\@nameuse{class@\@nameuse{class@#1@@name}}%
+      }{%
+        \class@error{Invalid value "#1 = \@nameuse{class@\@nameuse{class@#1@@name}}"}%
+      }%
+      \@nameuse{class@#1@@reset}%
+      \@nameuse{class@\@nameuse{class@#1@@name}@\@nameuse{class@\@nameuse{class@#1@@name}}true}%
+    }%
+  }%
+  \kv@define@key{class@value}{default}{%
+    \def\class@@default{##1}%
+  }%
+  \kvsetkeys{class@value}{#2}%
+  \@namedef{class@\@nameuse{class@#1@@name}}{}%
+  \kv@set@family@handler{class@choice}{%
+    \ifx\class@@default\@empty
+      \def\class@@default{##1}%
+    \fi
+    \expandafter\newif\csname ifclass@\@nameuse{class@#1@@name}@##1\endcsname
+    \expandafter\g@addto@macro\csname class@#1@@reset\endcsname{%
+      \@nameuse{class@\@nameuse{class@#1@@name}@##1false}%
+    }%
+  }%
+  \kvsetkeys@expandafter{class@choice}{\class@@choices}%
+  \expandafter\let\csname class@\@nameuse{class@#1@@name}\endcsname\class@@default
+  \expandafter\ifx\csname class@\@nameuse{class@#1@@name}\endcsname\@empty\else
+    \@nameuse{class@#1@@check}%
+  \fi
+  \kv@define@key{class}{#1}{%
+    \@namedef{class@\@nameuse{class@#1@@name}}{##1}%
+    \@nameuse{class@#1@@check}%
+    \@nameuse{class@#1@@code}%
+  }%
+}
+\newcommand\class@option@hook[2]{%
+  \expandafter\g@addto@macro\csname class@#1@@code\endcsname{#2}%
+}
+
+% 以上是对键值系统的定义 下面就可正式开始使用了
 \class@define@key{
-    date = {
-        default = {\the\year-\two@digits{\month}-\two@digits{\day}},
-    },
-    title = {
-        default = {标题},
-    },
+  date = {
+    default = {\the\year-\two@digits{\month}-\two@digits{\day}},
+  }
 }
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 自定义显式宏   使用\newcommand和\def和\renewcommand命令
@@ -263,7 +319,7 @@
 }
 \newcommand\class@titlepage@info{%
     \class@titlepage@info@tabular{2.3cm}{2.85cm}{2.75cm}{0.77cm}{%
-        \class@info@item{培养单位}{}{物理科学院}% 首行出现了左侧偏移？？为什么
+        \class@info@item{培养单位}{}{物理科学院}% 
         \class@info@item{单位}{}{INOUESAKIKO}%
         \class@info@item{培养单位}{}{INOUE}%
         \class@info@item{培养单位吗}{}{大苏打}%
@@ -272,58 +328,69 @@
 
 % 封面日期显示系列宏设置
 \newcommand\class@format@date[2]{%
-    \edef\class@@date{#2}%
-    \def\class@@process@date##1-##2-##3\@nil{%
-        #1{##1}{##2}{##3}%
-    }%
-    \expandafter\class@@process@date\class@@date\@nil
+  \edef\class@@date{#2}%
+  \def\class@@process@date##1-##2-##3\@nil{%
+    #1{##1}{##2}{##3}%
+  }%
+  \expandafter\class@@process@date\class@@date\@nil
 }
 
-\newcommand\class@date@zh@short[3]{\zhdigits{#1}年 \zhnumber{#2}月}
+% 中文短日期格式
+\newcommand\class@date@zh@short[3]{%
+  \zhdigits{#1}年\zhnumber{#2}月% 示例：二〇二三年九月
+}
 
-\newcommand\class@titlepage@date{%   
+% 封面日期生成
+\newcommand\class@titlepage@date{%
+  \begingroup
+    \class@format@date{\class@date@zh@short}{\class@date}\par
+  \endgroup
+}
+
+\newcommand\class@titlepages@date{%   
     \begingroup
-        \sanhao
+        % \sanhao  关键问题在这里 这个不注释掉就无法正常运行
+        \zihao{3}
         \renewcommand\CJKglue{\hspace{1bp}}%
         \class@format@date{\class@date@zh@short}{\class@date}\par
     \endgroup
 }
 
-\newcommand\class@titlepage@thesis{%
-    \newgeometry{
-        top     = 2cm
-        bottom  = 6cm
-        hmargin = 3.5cm
-    }%
-    \thispagestyle{empty}%
-    \null \vskip 8.1pt%
-    \begingroup
-        \centering
-        \parbox[t][2cm][t]{\textwidth}{%
-            \hskip -21.5pt%
-        }\par
-        \vskip 40.5pt%
+% \newcommand\class@titlepage@thesis{%
+%     \newgeometry{
+%         top     = 2cm
+%         bottom  = 6cm
+%         hmargin = 3.5cm
+%     }%
+%     \thispagestyle{empty}%
+%     \null \vskip 8.1pt%
+%     \begingroup
+%         \centering
+%         \parbox[t][2cm][t]{\textwidth}{%
+%             \hskip -21.5pt%
+%         }\par
+%         \vskip 40.5pt%
 
-        \begingroup
-            \sffamily\fontsize{26bp}{46.8bp}\selectfont
-            \class@title\par
-        \endgroup
+%         \begingroup
+%             \sffamily\fontsize{26bp}{46.8bp}\selectfont
+%             \class@title\par
+%         \endgroup
 
-        \vskip 24.1pt%
-        \class@title@degree@category\par
-        \vfill
+%         \vskip 24.1pt%
+%         \class@title@degree@category\par
+%         \vfill
 
-        \parbox[t][7.25cm][t]{\textwidth}{%
-            \fangsong\fontsize{16bp}{31.20bp}\selectfont
-            \class@titlepage@info
-            }\par
-            \vskip 62pt%
+%         \parbox[t][7.25cm][t]{\textwidth}{%
+%             \fangsong\fontsize{16bp}{31.20bp}\selectfont
+%             \class@titlepage@info
+%             }\par
+%             \vskip 62pt%
         
-        \parbox[t][1.03cm][t]{\textwidth}{\centering\class@titlepage@date}\par
-    \endgroup
-    \clearpage
-    \restoregeometry
-}
+%         \parbox[t][1.03cm][t]{\textwidth}{\centering\class@titlepage@date}\par
+%     \endgroup
+%     \clearpage
+%     \restoregeometry
+% }
 
 % 还没写完
 
@@ -359,15 +426,24 @@
 
     \if@class@preface %检查布尔变量 @mcm@preface 是否为 true。检查布尔变量 @mcm@preface 是否为 true。
     \null %插入一个“空行”或占位符，确保垂直间距的准确性。常用于调整布局时占位
+    \vskip 62pt%
     \begin{center}
         {\zihao{0}\kaishu \text{武汉大学}}
     \end{center}\
     \null
+    \vskip 62pt%
 
-    \class@titlepage@info
-    
+    % \class@titlepage@info   
+    \fangsong\fontsize{16bp}{31.20bp}\selectfont\class@titlepage@info
+
     \else % 如果\@class@preface 为 false，则跳过 \if 到 \else 之间的代码。执行\else 到 \fi之间的代码 
     \fi 
+
+    \vskip 100pt%
+    \begin{center}
+      \parbox[t][1.03cm][t]{\textwidth}{\centering\class@titlepages@date}\par
+    \end{center}\
+
     \makeanothertitle
 }
 
