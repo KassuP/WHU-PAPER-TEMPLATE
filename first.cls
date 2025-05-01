@@ -4,14 +4,14 @@
 \LoadClass[a4paper, 12pt]{article}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%创建布尔变量（具有真知的量：true/false）  布尔变量可以使用在条件判断语句中
+% 定义布尔变量（具有真知的量：true/false）  布尔变量可以使用在条件判断语句中
 \newif\if@class@bwprint % 是创建一个布尔变量，叫做 \@class@bwprint
     \@class@bwprintfalse % 设置默认值：设置 \if@class@bwprint 的初始值为假的 false
 \newif\if@class@preface 
     \@class@prefacetrue
 
-%定义：对于用户输入的特殊值、并赋予其以对应布尔变量()的真值（true或者false）
-\DeclareOption{colorprint}{\@class@bwprintfalse} %当用户在 \documentclass[...] 中写了 colorprint 时，设置 \@class@bwprint 为 false，即 不是黑白打印
+% 定义：对于用户输入的值、并赋予其以对应布尔变量()的真值（true或者false）
+\DeclareOption{colorprint}{\@class@bwprintfalse} %当用户在 \documentclass[...] 中写了 colorprint 时，就设置 \@class@bwprint 为 false，即 不是黑白打印
 \DeclareOption{bwprint}{\@class@bwprinttrue} %如果用户选了 bwprint，就将 \@class@bwprint 设置为 true，启用 黑白打印模式
 \DeclareOption{withoutpreface}{\@class@prefacefalse} 
 \DeclareOption{withpreface}{\@class@prefacetrue} 
@@ -19,10 +19,10 @@
 \ExecuteOptions{colorprint,withpreface} %指定默认值 如果用户在 \documentclass[...] 里没有指定打印颜色方式，那就默认使用 colorprint
 
 \ProcessOptions\relax % 没有此语句会报错。（执行对选项的处理）执行 \ProcessOptions， LaTeX才处理了这些声明[documentclass中括号中的内容]。
-%必须调用这个命令，LaTeX 才会处理这些选项定义
+% 必须调用这个命令，LaTeX 才会处理这些选项定义
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%空常量(待输入) \class@tokens@OOO
+%%%%%%%%%%%%%%%%%
+%定义空常量(待输入) \class@tokens@OOO
 \newcommand*\class@tokens@keywords{}
 \newcommand*\class@tokens@school{}
 \newcommand*\class@tokens@college{} % 学院的名字
@@ -34,7 +34,8 @@
 \newcommand*\class@tokens@advisor{} %指导教师
 \newcommand*\class@tokens@course{} %课程
 
-%实常量 
+%%%%%%%%%%%%%%%
+%定义实常量 
 %%数学环境常量 \class@math@OOO
 \newcommand*{\class@math@definition}{定义}
 \newcommand*{\class@math@theorem}{定理}
@@ -103,6 +104,7 @@
 % \RequireXeTeX 不是 LaTeX 标准命令，通常是某些类文件为了确保正确加载 XeTeX 特性而自定义的命令。
 
 \RequirePackage{ctex} %支持中文
+\RequirePackage{fontspec}
 \RequirePackage{zhnumber} % 用于将阿拉伯数字转换为中文数字
 
 \RequirePackage{geometry} % 页面布局
@@ -149,6 +151,33 @@
 \RequirePackage{kvoptions}
 \RequirePackage{xparse}    % 提供更好的命令定义功能 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 对全局页面、文字进行设置
+\setlength\parindent{2em} % 每行缩进两个汉字
+
+\setmainfont{Times New Roman} % 设置字体 需要导入包fontspec
+\setsansfont{Arial} % 设置字体
+\setCJKfamilyfont{kai}[AutoFakeBold]{simkai.ttf}
+\newcommand*{\kai}{\CJKfamily{kai}}
+\setCJKfamilyfont{song}[AutoFakeBold]{SimSun}
+\newcommand*{\song}{\CJKfamily{song}}
+% 另外，用户可能在中文环境下使用ctex文档类，这样中文字体可能默认设置为宋体、黑体等，
+% 而西文字体由`\setmainfont`指定。
+% 因此，章节标题中的中文部分会使用ctex设置的中文字体，而编号和西文部分使用Times New Roman。
+% 总结一下，这段代码本身并没有显式设置新的字体，而是依赖于之前定义的全局字体设置。
+% 因此，字体仍然是Times New Roman（主字体）、Arial（无衬线字体），中文由ctex默认处理。
+% 但需要检查代码中的拼写错误，确保`\bfseries`和`\normalfont`正确应用，以保证标题的字体样式正确显示。
+% 若使用 ctex 文档类或包，默认中文字体为：
+  %% 主字体：宋体（SimSun）
+  %% 加粗样式：黑体（SimHei）
+%
+
+% 全局页面设置
+\geometry{%
+    top     = 2cm,
+    bottom  = 5cm,
+    hmargin = 3.5cm,
+}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 编号控制
 \crefformat{figure}{#2图~#1#3}
@@ -211,7 +240,78 @@
 \crefrangeformat{solution}{\class@math@solution~(#3#1#4)\;\~{}\;(#5#2#6)}
 \crefmultiformat{solution}{\class@math@solution~(#2#1#3)}{ 和~(#2#1#3)}{，(#2#1#3)}{ 和~(#2#1#3)}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 每个环境模块的设定
+% 列表环境设置
+\setlist{%
+	topsep=0.3em, % 列表顶端的垂直空白
+	partopsep=0pt, % 列表环境前面紧接着一个空白行时其顶端的额外垂直空白
+	itemsep=0ex plus 0.1ex, % 列表项之间的额外垂直空白
+	parsep=0pt, % 列表项内的段落之间的垂直空白
+	leftmargin=1.5em, % 环境的左边界和列表之间的水平距离
+	rightmargin=0em, % 环境的右边界和列表之间的水平距离
+	labelsep=0.5em, % 包含标签的盒子与列表项的第一行文本之间的间隔
+	labelwidth=2em % 包含标签的盒子的正常宽度；若实际宽度更宽，则使用实际宽度。
+}
+
+% 图片环境设置
+ % 如果图片没有指定后缀, 依次按下列顺序搜索
+ \DeclareGraphicsExtensions{.pdf,.eps,.jpg,.png}
+ % 设置图表搜索路径, 可以给图表文件夹取如下名字
+\graphicspath{{figures/}{figure/}{pictures/}%
+  {picture/}{pic/}{pics/}{image/}{images/}}
+% 图表标题
+\DeclareCaptionFont{song}{\songti}
+\DeclareCaptionFont{minusfour}{\zihao{-4}}
+\captionsetup[figure]{%
+	format=hang,   % 标题从第二行开始都有缩进, 应该和 justification=raggedright 的效果一样.
+	labelsep=quad, % 分隔符是一个空格
+	font={song,minusfour,bf}, % 图的字体, 宋体小四
+	position=bottom % position=bottom, 不代表标题放在下面, 标题仍放在你放\caption的位置.
+}
+\captionsetup[table]{%
+	format=hang,   % 标题从第二行开始都有缩进, 应该和 justification=raggedright 的效果一样.
+	labelsep=quad, % 分隔符是一个空格
+	font={song,minusfour,bf}, % 表的字体, 宋体小四
+	position=top % position=bottom, 不代表标题放在下面, 标题仍放在你放\caption的位置.
+}
+
+
+% 中文标题格式设置
+% 标题与生成目录深度
+\setcounter{secnumdepth}{3}
+% 节标题格式, 居中, 使用\chinese命令修改计数器
+\def\@seccntformat#1{\csname the#1\endcsname\ }
+\renewcommand\thesection{\chinese{section}、}
+\renewcommand\thesubsection{\arabic{section}\thinspace.\thinspace\arabic{subsection}}
+\renewcommand\thesubsubsection{\thesubsection\thinspace.\thinspace\arabic{subsubsection}}
+
+\renewcommand\section{\@startsection{section}{1}{\z@}%
+ 	{-3.5ex \@plus -1ex \@minus -.2ex}%
+	{2.3ex \@plus.2ex}%
+	{\centering\Large\bfseries}}
+
+\renewcommand\subsection{\@startsection{subsection}{2}{\z@}%
+	{-3.25ex\@plus -1ex \@minus -.2ex}%
+	{1.5ex \@plus .2ex}%
+	{\normalfont\large\bfseries}}
+
+\renewcommand\subsubsection{\@startsection{subsubsection}{3}{\z@}%
+	{-3.25ex\@plus -1ex \@minus -.2ex}%
+	{1.5ex \@plus .2ex}%
+	{\normalfont\normalsize\bfseries}}
+
+\renewcommand\paragraph{\@startsection{paragraph}{4}{\z@}%
+	{3.25ex \@plus1ex \@minus.2ex}%
+	{-1em}%
+	{\normalfont\normalsize\bfseries}}
+    
+\renewcommand\subparagraph{\@startsection{subparagraph}{5}{\parindent}%
+	 {3.25ex \@plus1ex \@minus .2ex}%
+	 {-1em}%
+	 {\normalfont\normalsize\bfseries}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 宏定义
 % 自定义隐式宏   使用\OOO@define@key{} 命令
 \SetupKeyvalOptions{
   family=class,
@@ -285,7 +385,7 @@
 }
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 自定义显式宏   使用\newcommand和\def和\renewcommand命令
-%% 一些排版的宏命令
+%% 一些排版的宏(模块化的宏)
 \newbox\class@pad@box
 \newcommand\class@pad[2]{
     \sbox\class@pad@box{#2}%
@@ -356,6 +456,7 @@
     \endgroup
 }
 
+% 集成的宏（利用模块化的宏）
 % \newcommand\class@titlepage@thesis{%
 %     \newgeometry{
 %         top     = 2cm
@@ -391,8 +492,6 @@
 %     \clearpage
 %     \restoregeometry
 % }
-
-% 还没写完
 
 
 %% 生成定制的标题页，对\maketitle 命令重定义
@@ -449,10 +548,12 @@
 
 \newcommand\makeanothertitle{
     \newpage
-    \begin{center}%
-        {\zihao{-2}\heiti \@title \par} % 黑体本来就是粗的heiti字不使用\bfseries使用粗体的指令
-        {\vskip1ex\zihao{4}\kaishu \@author \class@tokens@studentnumber \par}%
-        {\vskip1ex\zihao{5}\kaishu \class@tokens@school\class@tokens@college \hspace{1em} \class@tokens@province\class@tokens@city \hspace{1em} \class@tokens@postcode \par}%
-    \end{center}
+    \begin{center}
+      {\zihao{-2}\heiti \@title \par}
+      \vskip1ex
+      {\zihao{4}\kaishu \@author \quad \class@tokens@studentnumber \par}
+      \vskip1ex
+      {\zihao{5}\kaishu \class@tokens@school\class@tokens@college \hspace{1em} \class@tokens@province\class@tokens@city \hspace{1em} \class@tokens@postcode \par}
+  \end{center}
 }
 
