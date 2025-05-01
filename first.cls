@@ -419,10 +419,11 @@
 }
 \newcommand\class@titlepage@info{%
     \class@titlepage@info@tabular{2.3cm}{2.85cm}{2.75cm}{0.77cm}{%
-        \class@info@item{培养单位}{}{物理科学院}% 
-        \class@info@item{单位}{}{INOUESAKIKO}%
-        \class@info@item{培养单位}{}{INOUE}%
-        \class@info@item{培养单位吗}{}{大苏打}%
+      \class@info@item{课程名称}{}{\class@tokens@course}%
+        \class@info@item{学院}{}{\class@tokens@college}% 
+        \class@info@item{指导教师}{}{\class@tokens@advisor}%
+        \class@info@item{学生姓名}{}{\@author}%
+        \class@info@item{学生学号}{}{\class@tokens@studentnumber}
     }\par
 }
 
