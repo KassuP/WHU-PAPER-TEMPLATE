@@ -179,6 +179,19 @@
     bottom  = 5cm,
     hmargin = 3.5cm,
 }
+
+% 页码全局设置
+\pagestyle{fancyplain}  % 设置全文档使用 fancyplain 页面样式
+\fancyhf{}              % 清除所有页眉页脚的默认内容
+\renewcommand{\headrulewidth}{0pt}
+\fancyfoot[C]{-\,\thepage\,-}       % 设置页脚居中显示带连字符的页码（如 -1-）
+\fancypagestyle{plain}  % 重定义 plain 页面样式（章节起始页默认使用此样式）
+{
+  \fancyhead{}          % 清除 plain 样式的页眉内容
+  \renewcommand{\headrulewidth}{0pt} % 隐藏页眉横线
+  \fancyfoot{}          % 清除 plain 样式的页脚默认内容
+  \fancyfoot[C]{-\,\thepage\,-} % 强制章节页也显示带连字符的页码
+}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 编号控制
 \crefformat{figure}{#2图~#1#3}
@@ -242,7 +255,7 @@
 \crefmultiformat{solution}{\class@math@solution~(#2#1#3)}{ 和~(#2#1#3)}{，(#2#1#3)}{ 和~(#2#1#3)}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% 每个环境模块的设定
+% 环境模块的设定
 % 列表环境设置
 \setlist{%
 	topsep=0.3em, % 列表顶端的垂直空白
@@ -278,7 +291,7 @@
 }
 
 % 中文标题格式设置
-% 标题与生成目录深度
+%% 生成目录的深度
 \setcounter{secnumdepth}{3}
 % 节标题格式, 居中, 使用\chinese命令修改计数器
 \def\@seccntformat#1{\csname the#1\endcsname\ }
@@ -436,7 +449,7 @@
   \expandafter\class@@process@date\class@@date\@nil
 }
 
-% 中文短日期格式
+%% 转化为中文短日期格式
 \newcommand\class@date@zh@short[3]{%
   \zhdigits{#1}年\zhnumber{#2}月% 示例：二〇二三年九月
 }
@@ -458,21 +471,8 @@
     \endgroup
 }
 
-%页码设置相关宏
-%% 页码全局设置
-\pagestyle{fancyplain}  % 设置全文档使用 fancyplain 页面样式
-\fancyhf{}              % 清除所有页眉页脚的默认内容
-\renewcommand{\headrulewidth}{0pt}
-\fancyfoot[C]{-\,\thepage\,-}       % 设置页脚居中显示带连字符的页码（如 -1-）
-\fancypagestyle{plain}  % 重定义 plain 页面样式（章节起始页默认使用此样式）
-{
-  \fancyhead{}          % 清除 plain 样式的页眉内容
-  \renewcommand{\headrulewidth}{0pt} % 隐藏页眉横线
-  \fancyfoot{}          % 清除 plain 样式的页脚默认内容
-  \fancyfoot[C]{-\,\thepage\,-} % 强制章节页也显示带连字符的页码
-}
-
-%% 第一次调用\section命令时就开始使用阿拉伯编码
+% 页码设置相关宏
+%% 第一次调用\section命令时才开始使用阿拉伯数字编码，之前则根据封面页的罗马数字编码
 \let\old@section\section % 保存原始的 \section 命令.将原始 \section 的功能保存到 \old@section 中
 \renewcommand{\section}{% 开始重定义 \section 命令
     \@ifundefined{mainmatter@done}{% 条件检查是否已执行过切换页码的操作

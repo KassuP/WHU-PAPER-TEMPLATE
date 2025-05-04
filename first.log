@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2025.3.17)  4 MAY 2025 08:46
+This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2025.3.17)  4 MAY 2025 12:23
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -759,7 +759,8 @@ Package fontspec Info: Font family 'Arial(0)' created for font 'Arial' with
 (fontspec)             <->"Arial/BI/OT:script=latn;language=dflt;+smcp;mapping=tex-text;"
 
 \class@pad@box=\box73
-) (./first.aux)
+)
+No file first.aux.
 \openout1 = `first.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 15.
@@ -838,7 +839,6 @@ LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
 (Font)                  OT1/cmss/bx/n --> TU/Arial(0)/b/n on input line 15.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
 (Font)                  OT1/cmtt/m/n --> TU/lmtt/b/n on input line 15.
-
 *geometry* driver: auto-detecting
 *geometry* detected driver: xetex
 *geometry* verbose mode - [ preamble ] result:
@@ -878,12 +878,38 @@ Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: hyperref package is loaded.
 Package caption Info: End \AtBeginDocument code.
 Package hyperref Info: Link coloring OFF on input line 15.
-(./first.out) (./first.out)
 \@outlinefile=\write4
 \openout4 = `first.out'.
 
-File: figure/whuname.png Graphic file (type bmp)
-<figure/whuname.png>
+
+Package hyperref Warning: Rerun to get /PageLabels entry.
+
+
+LaTeX Warning: File `whuname.png' not found on input line 16.
+
+p:/File/Code_Repo/PAPER/各种论文模板/第一版/first.tex:16: Unable to load picture or PDF file 'whuname.png'.
+<to be read again> 
+                   }
+l.16     \maketitle
+                   
+The requested image couldn't be read because
+it was not a recognized image format.
+
+
+p:/File/Code_Repo/PAPER/各种论文模板/第一版/first.tex:16: Package graphics Error: Division by 0.
+
+See the graphics package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.16     \maketitle
+                   
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+File: whuname.png Graphic file (type bmp)
+<whuname.png>
 
 Package fontspec Info: Could not resolve font "FangSong/BI" (it probably
 (fontspec)             doesn't exist).
@@ -908,7 +934,7 @@ Package fontspec Info: Font family 'FangSong(0)' created for font 'FangSong'
 (fontspec)             - 'small caps'  (m/sc) with NFSS spec.: 
 
 LaTeX Font Info:    Trying to load font information for U+msa on input line 16.
- (c:/Program Files/texlive/2024/texmf-dist/tex/latex/amsfonts/umsa.fd
+(c:/Program Files/texlive/2024/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
 LaTeX Font Info:    Trying to load font information for U+msb on input line 16.
@@ -968,16 +994,24 @@ Package fontspec Info: Font family 'KaiTi(0)' created for font 'KaiTi' with
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2022/08/05>
  ***********
-Package rerunfilecheck Info: File `first.out' has not changed.
-(rerunfilecheck)             Checksum: 716447B591DB77AA4ADB713D9FA3A4F7;58.
+
+
+Package rerunfilecheck Warning: File `first.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `first.out':
+(rerunfilecheck)             Before: <no file>
+(rerunfilecheck)             After:  716447B591DB77AA4ADB713D9FA3A4F7;58.
  ) 
 Here is how much of TeX's memory you used:
- 22737 strings out of 474773
- 467053 string characters out of 5755059
+ 22732 strings out of 474773
+ 466994 string characters out of 5755059
  1926842 words of memory out of 5000000
- 44504 multiletter control sequences out of 15000+600000
+ 44506 multiletter control sequences out of 15000+600000
  568024 words of font info for 123 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  108i,11n,145p,401b,466s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on first.pdf (2 pages).
+Error 1 (driver return code) generating output;
+file first.pdf may not be valid.
