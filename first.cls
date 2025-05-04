@@ -188,12 +188,22 @@
 \fancyhf{}              % 清除所有页眉页脚的默认内容
 \renewcommand{\headrulewidth}{0pt}
 \fancyfoot[C]{-\,\thepage\,-}       % 设置页脚居中显示带连字符的页码（如 -1-）
-\fancypagestyle{plain}  % 重定义 plain 页面样式（章节起始页默认使用此样式）
-{
+\fancypagestyle{plain}{ % 重定义 plain 页面样式（章节起始页默认使用此样式）
   \fancyhead{}          % 清除 plain 样式的页眉内容
   \renewcommand{\headrulewidth}{0pt} % 隐藏页眉横线
   \fancyfoot{}          % 清除 plain 样式的页脚默认内容
   \fancyfoot[C]{-\,\thepage\,-} % 强制章节页也显示带连字符的页码
+}
+%% 页码设置相关宏
+%%% 第一次调用\section命令时才开始使用阿拉伯数字编码，之前则根据封面页的罗马数字编码
+\let\old@section\section % 保存原始的 \section 命令.将原始 \section 的功能保存到 \old@section 中
+\renewcommand{\section}{% 开始重定义 \section 命令
+    \@ifundefined{mainmatter@done}{% 条件检查是否已执行过切换页码的操作
+        \pagenumbering{arabic}%
+        \setcounter{page}{1} % 强制设置当前页码为 1
+        \global\let\mainmatter@done\relax%
+    }{}%
+    \old@section %在完成页码切换后执行(回退)原版章节命令
 }
 
 % 全局间距控制
@@ -333,7 +343,7 @@
     afterskip  = 6bp,
   },
 }%
-%非ctex的重新设置
+%非ctex的标题设置
 % 节标题格式, 居中, 使用\chinese命令修改计数器
 % \def\@seccntformat#1{\csname the#1\endcsname\ }
 % \renewcommand\thesection{\arabic{section}}
@@ -515,8 +525,8 @@
 
 % 论文、作者相关信息展示
 \newcommand{\class@info@showcase}{%
-  \linespread{0}\selectfont   % 1.5倍行距
-  \setlength{\parskip}{0,5em}   % 段间距
+  \linespread{0}\selectfont   
+  \setlength{\parskip}{0em}   % 段间距
     \begin{center}
       {\zihao{-2}\heiti \@title \par}
       \vskip1ex
@@ -526,17 +536,7 @@
     \end{center}
 }
 
-% 页码设置相关宏
-%% 第一次调用\section命令时才开始使用阿拉伯数字编码，之前则根据封面页的罗马数字编码
-\let\old@section\section % 保存原始的 \section 命令.将原始 \section 的功能保存到 \old@section 中
-\renewcommand{\section}{% 开始重定义 \section 命令
-    \@ifundefined{mainmatter@done}{% 条件检查是否已执行过切换页码的操作
-        \pagenumbering{arabic}%
-        \setcounter{page}{1} % 强制设置当前页码为 1
-        \global\let\mainmatter@done\relax%
-    }{}%
-    \old@section %在完成页码切换后执行(回退)原版章节命令
-}
+
 
 % 图片相关宏
 \newcommand{\class@school@logo}{whuname.png} % 假设图片与 .cls 同目录（换成你学校的logo）
