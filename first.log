@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2025.3.17)  1 MAY 2025 13:18
+This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2025.3.17)  4 MAY 2025 08:46
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -695,6 +695,17 @@ Package: ragged2e 2023/06/22 v3.6 ragged2e Package
 \RaggedLeftParindent=\skip118
 \RaggedRightParindent=\skip119
 \JustifyingParindent=\skip120
+) (c:/Program Files/texlive/2024/texmf-dist/tex/latex/fancyhdr/fancyhdr.sty
+Package: fancyhdr 2022/11/09 v4.1 Extensive control of page headers and footers
+\f@nch@headwidth=\skip121
+\f@nch@O@elh=\skip122
+\f@nch@O@erh=\skip123
+\f@nch@O@olh=\skip124
+\f@nch@O@orh=\skip125
+\f@nch@O@elf=\skip126
+\f@nch@O@erf=\skip127
+\f@nch@O@olf=\skip128
+\f@nch@O@orf=\skip129
 )
 
 Package fontspec Info: Font family 'TimesNewRoman(0)' created for font 'Times
@@ -871,61 +882,8 @@ Package hyperref Info: Link coloring OFF on input line 15.
 \@outlinefile=\write4
 \openout4 = `first.out'.
 
-*geometry* verbose mode - [ newgeometry ] result:
-* driver: xetex
-* paper: <default>
-* layout: <same size as paper>
-* layoutoffset:(h,v)=(0.0pt,0.0pt)
-* modes: 
-* h-part:(L,W,R)=(99.58464pt, 398.3386pt, 99.58464pt)
-* v-part:(T,H,B)=(56.9055pt, 617.42482pt, 170.71652pt)
-* \paperwidth=597.50787pt
-* \paperheight=845.04684pt
-* \textwidth=398.3386pt
-* \textheight=617.42482pt
-* \oddsidemargin=27.31465pt
-* \evensidemargin=27.31465pt
-* \topmargin=-52.36449pt
-* \headheight=12.0pt
-* \headsep=25.0pt
-* \topskip=12.0pt
-* \footskip=30.0pt
-* \marginparwidth=35.0pt
-* \marginparsep=10.0pt
-* \columnsep=10.0pt
-* \skip\footins=10.8pt plus 4.0pt minus 2.0pt
-* \hoffset=0.0pt
-* \voffset=0.0pt
-* \mag=1000
-* \@twocolumnfalse
-* \@twosidefalse
-* \@mparswitchfalse
-* \@reversemarginfalse
-* (1in=72.27pt=25.4mm, 1cm=28.453pt)
-
-
-Package fontspec Info: Could not resolve font "KaiTi/BI" (it probably doesn't
-(fontspec)             exist).
-
-
-Package fontspec Info: Could not resolve font "KaiTi/B" (it probably doesn't
-(fontspec)             exist).
-
-
-Package fontspec Info: Could not resolve font "KaiTi/I" (it probably doesn't
-(fontspec)             exist).
-
-
-Package fontspec Info: Font family 'KaiTi(0)' created for font 'KaiTi' with
-(fontspec)             options [Script={CJK}].
-(fontspec)              
-(fontspec)              This font family consists of the following NFSS
-(fontspec)             series/shapes:
-(fontspec)              
-(fontspec)             - 'normal' (m/n) with NFSS spec.:
-(fontspec)             <->"KaiTi/OT:script=hani;language=dflt;"
-(fontspec)             - 'small caps'  (m/sc) with NFSS spec.: 
-
+File: figure/whuname.png Graphic file (type bmp)
+<figure/whuname.png>
 
 Package fontspec Info: Could not resolve font "FangSong/BI" (it probably
 (fontspec)             doesn't exist).
@@ -958,7 +916,6 @@ LaTeX Font Info:    Trying to load font information for U+msb on input line 16.
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) [1
 
-
 ]
 
 Package fontspec Info: Could not resolve font "SimHei/BI" (it probably doesn't
@@ -983,21 +940,44 @@ Package fontspec Info: Font family 'SimHei(0)' created for font 'SimHei' with
 (fontspec)             <->"SimHei/OT:script=hani;language=dflt;"
 (fontspec)             - 'small caps'  (m/sc) with NFSS spec.: 
 
- [2] (./first.aux)
+
+Package fontspec Info: Could not resolve font "KaiTi/BI" (it probably doesn't
+(fontspec)             exist).
+
+
+Package fontspec Info: Could not resolve font "KaiTi/B" (it probably doesn't
+(fontspec)             exist).
+
+
+Package fontspec Info: Could not resolve font "KaiTi/I" (it probably doesn't
+(fontspec)             exist).
+
+
+Package fontspec Info: Font family 'KaiTi(0)' created for font 'KaiTi' with
+(fontspec)             options [Script={CJK}].
+(fontspec)              
+(fontspec)              This font family consists of the following NFSS
+(fontspec)             series/shapes:
+(fontspec)              
+(fontspec)             - 'normal' (m/n) with NFSS spec.:
+(fontspec)             <->"KaiTi/OT:script=hani;language=dflt;"
+(fontspec)             - 'small caps'  (m/sc) with NFSS spec.: 
+
+ [1] (./first.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2022/08/05>
  ***********
 Package rerunfilecheck Info: File `first.out' has not changed.
-(rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
+(rerunfilecheck)             Checksum: 716447B591DB77AA4ADB713D9FA3A4F7;58.
  ) 
 Here is how much of TeX's memory you used:
- 22519 strings out of 474773
- 463237 string characters out of 5755059
- 1925842 words of memory out of 5000000
- 44294 multiletter control sequences out of 15000+600000
- 568016 words of font info for 122 fonts, out of 8000000 for 9000
+ 22737 strings out of 474773
+ 467053 string characters out of 5755059
+ 1926842 words of memory out of 5000000
+ 44504 multiletter control sequences out of 15000+600000
+ 568024 words of font info for 123 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 108i,8n,145p,401b,564s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 108i,11n,145p,401b,466s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
 Output written on first.pdf (2 pages).

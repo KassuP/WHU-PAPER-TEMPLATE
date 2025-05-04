@@ -149,7 +149,8 @@
 \RequirePackage{kvdefinekeys}
 \RequirePackage{kvsetkeys}
 \RequirePackage{kvoptions}
-\RequirePackage{xparse}    % 提供更好的命令定义功能 
+\RequirePackage{xparse}    % 提供更好的命令定义功能
+\RequirePackage{fancyhdr,hyperref} % 页码相关的库 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 对全局页面、文字进行设置
@@ -168,8 +169,8 @@
 % 因此，字体仍然是Times New Roman（主字体）、Arial（无衬线字体），中文由ctex默认处理。
 % 但需要检查代码中的拼写错误，确保`\bfseries`和`\normalfont`正确应用，以保证标题的字体样式正确显示。
 % 若使用 ctex 文档类或包，默认中文字体为：
-  %% 主字体：宋体（SimSun）
-  %% 加粗样式：黑体（SimHei）
+    %% 主字体：宋体（SimSun）
+    %% 加粗样式：黑体（SimHei）
 %
 
 % 全局页面设置
@@ -275,7 +276,6 @@
 	font={song,minusfour,bf}, % 表的字体, 宋体小四
 	position=top % position=bottom, 不代表标题放在下面, 标题仍放在你放\caption的位置.
 }
-
 
 % 中文标题格式设置
 % 标题与生成目录深度
@@ -448,6 +448,7 @@
   \endgroup
 }
 
+%将日期的代码整合在一起的宏
 \newcommand\class@titlepages@date{%   
     \begingroup
         % \sanhao  关键问题在这里 这个不注释掉就无法正常运行
@@ -457,6 +458,38 @@
     \endgroup
 }
 
+%页码设置相关宏
+%% 页码全局设置
+\pagestyle{fancyplain}  % 设置全文档使用 fancyplain 页面样式
+\fancyhf{}              % 清除所有页眉页脚的默认内容
+\renewcommand{\headrulewidth}{0pt}
+\fancyfoot[C]{-\,\thepage\,-}       % 设置页脚居中显示带连字符的页码（如 -1-）
+\fancypagestyle{plain}  % 重定义 plain 页面样式（章节起始页默认使用此样式）
+{
+  \fancyhead{}          % 清除 plain 样式的页眉内容
+  \renewcommand{\headrulewidth}{0pt} % 隐藏页眉横线
+  \fancyfoot{}          % 清除 plain 样式的页脚默认内容
+  \fancyfoot[C]{-\,\thepage\,-} % 强制章节页也显示带连字符的页码
+}
+
+%% 第一次调用\section命令时就开始使用阿拉伯编码
+\let\old@section\section % 保存原始的 \section 命令.将原始 \section 的功能保存到 \old@section 中
+\renewcommand{\section}{% 开始重定义 \section 命令
+    \@ifundefined{mainmatter@done}{% 条件检查是否已执行过切换页码的操作
+        \pagenumbering{arabic}%
+        \setcounter{page}{1} % 强制设置当前页码为 1
+        \global\let\mainmatter@done\relax%
+    }{}%
+    \old@section %在完成页码切换后执行(回退)原版章节命令
+}
+
+% 图片相关宏
+\newcommand{\class@school@logo}{whuname.png} % 假设图片与 .cls 同目录（换成你学校的logo）
+\newcommand{\insertlogo}{%
+    \begin{center}
+        \includegraphics[width=0.7\textwidth]{\class@school@logo}%
+    \end{center}
+}
 % 集成的宏（利用模块化的宏）
 % \newcommand\class@titlepage@thesis{%
 %     \newgeometry{
@@ -517,19 +550,20 @@
 }
 
 \renewcommand\@maketitle{
-    \newgeometry{ % 对页面布局的临时修改仅这一样
-        top     = 2cm,
-        bottom  = 6cm,
-        hmargin = 3.5cm,
-    }
     \null\vskip 8.1pt% 开头给一个占位符然后垂直它8.1pt开始有文本
+    
+    \pagenumbering{Roman}
+    \setcounter{page}{1} % 从I开始
 
     \if@class@preface %检查布尔变量 @mcm@preface 是否为 true。检查布尔变量 @mcm@preface 是否为 true。
     \null %插入一个“空行”或占位符，确保垂直间距的准确性。常用于调整布局时占位
     \vskip 62pt%
-    \begin{center}
-        {\zihao{0}\kaishu \text{武汉大学}}
-    \end{center}\
+    
+    \insertlogo
+    % \begin{center}
+    %     {\zihao{0}\kaishu \text{\class@tokens@school}}
+    % \end{center}\
+
     \null
     \vskip 62pt%
 
@@ -550,11 +584,12 @@
 \newcommand\makeanothertitle{
     \newpage
     \begin{center}
-      {\zihao{-2}\heiti \@title \par}
-      \vskip1ex
-      {\zihao{4}\kaishu \@author \quad \class@tokens@studentnumber \par}
-      \vskip1ex
-      {\zihao{5}\kaishu \class@tokens@school\class@tokens@college \hspace{1em} \class@tokens@province\class@tokens@city \hspace{1em} \class@tokens@postcode \par}
-  \end{center}
+        {\zihao{-2}\heiti \@title \par}
+        \vskip1ex
+        {\zihao{4}\kaishu \@author \quad \class@tokens@studentnumber \par}
+        \vskip1ex
+        {\zihao{5}\kaishu \class@tokens@school\class@tokens@college \hspace{1em} \class@tokens@province\class@tokens@city \hspace{1em} \class@tokens@postcode \par}
+    \end{center}
+
 }
 
