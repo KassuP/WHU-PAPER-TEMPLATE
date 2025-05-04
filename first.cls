@@ -1,7 +1,7 @@
 \NeedsTeXFormat{LaTeX2e}[1995/12/01]
 \ProvidesClass{first}
   [2025/04/25 V1.0 My First LaTeX Class]
-\LoadClass[a4paper, 12pt]{article}
+\LoadClass[a4paper,zihao=-4,oneside]{ctexbook}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 定义布尔变量（具有真知的量：true/false）  布尔变量可以使用在条件判断语句中
@@ -103,7 +103,7 @@
 \RequireXeTeX % 用于加载 XeTeX 特有的功能。在某些情况下，它确保了 XeTeX 特定的特性和命令被正确地加载。
 % \RequireXeTeX 不是 LaTeX 标准命令，通常是某些类文件为了确保正确加载 XeTeX 特性而自定义的命令。
 
-\RequirePackage{ctex} %支持中文
+% \RequirePackage{ctex} %支持中文 已经被ctexbook隐形加载了 不能重复加载
 \RequirePackage{fontspec}
 \RequirePackage{zhnumber} % 用于将阿拉伯数字转换为中文数字
 
@@ -156,8 +156,8 @@
 % 对全局页面、文字进行设置
 \setlength\parindent{2em} % 每行缩进两个汉字
 
-\setmainfont{Times New Roman} % 设置字体 需要导入包fontspec
-\setsansfont{Arial} % 设置字体
+\setmainfont{Times New Roman} % 设置字体 需要导入包fontspec % 正文西文/数学符号
+\setsansfont{Arial} % 设置字体 % 无衬线字体
 \setCJKfamilyfont{kai}[AutoFakeBold]{simkai.ttf}
 \newcommand*{\kai}{\CJKfamily{kai}}
 \setCJKfamilyfont{song}[AutoFakeBold]{SimSun}
@@ -175,9 +175,12 @@
 
 % 全局页面设置
 \geometry{%
-    top     = 2cm,
-    bottom  = 5cm,
-    hmargin = 3.5cm,
+  top=2.7truecm,
+  bottom=2.2truecm,
+  left=3truecm,
+  right=3truecm,
+  includefoot, %表示将页脚区域也算进页面高度中，用于更精确控制正文区域的大小。否则页脚可能会“溢出”在设置之外。
+  xetex
 }
 
 % 页码全局设置
@@ -192,6 +195,10 @@
   \fancyfoot{}          % 清除 plain 样式的页脚默认内容
   \fancyfoot[C]{-\,\thepage\,-} % 强制章节页也显示带连字符的页码
 }
+
+% 全局间距控制
+\linespread{1.5}\selectfont   % 1.5倍行距
+\setlength{\parskip}{0.5em}   % 段间距
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 编号控制
 \crefformat{figure}{#2图~#1#3}
@@ -275,7 +282,7 @@
 \graphicspath{{figures/}{figure/}{pictures/}%
   {picture/}{pic/}{pics/}{image/}{images/}}
 % 图表标题
-\DeclareCaptionFont{song}{\songti}
+\DeclareCaptionFont{song}{\songti} % 图表宋体   
 \DeclareCaptionFont{minusfour}{\zihao{-4}}
 \captionsetup[figure]{%
 	format=hang,   % 标题从第二行开始都有缩进, 应该和 justification=raggedright 的效果一样.
@@ -290,39 +297,73 @@
 	position=top % position=bottom, 不代表标题放在下面, 标题仍放在你放\caption的位置.
 }
 
-% 中文标题格式设置
+% 中文标题ctex设置格式设置
 %% 生成目录的深度
 \setcounter{secnumdepth}{3}
+\ctexset{%     
+  chapter = {
+    name       = {}, % 移除“第...章”
+    % name = {第,章},
+    pagestyle  = plain, % 禁用默认空白页
+    break      = {}, % 移除自动分页
+    format     = {\centering\bfseries\zihao{-2}},
+    number     = {\zihao{-2}\bfseries\arabic{chapter}},
+    aftername  = \quad,
+    beforeskip = 27bp,
+    afterskip  = 27bp,
+  },
+  %ssfamily是无衬线字体的意思
+  section = {
+    format     = {\bfseries\zihao{4}},
+    aftername  = \quad,
+    % number默认了
+    beforeskip = 24bp,
+    afterskip  = 6bp,
+  },
+  subsection = {
+    format     = {\zihao{-4}},
+    aftername  = \quad,
+    beforeskip = 12bp,
+    afterskip  = 6bp,
+  },
+  subsubsection = {
+    format     = {\bfseries\zihao{-4}},
+    aftername  = \quad,
+    beforeskip = 12bp,
+    afterskip  = 6bp,
+  },
+}%
+%非ctex的重新设置
 % 节标题格式, 居中, 使用\chinese命令修改计数器
-\def\@seccntformat#1{\csname the#1\endcsname\ }
-\renewcommand\thesection{\chinese{section}、}
-\renewcommand\thesubsection{\arabic{section}\thinspace.\thinspace\arabic{subsection}}
-\renewcommand\thesubsubsection{\thesubsection\thinspace.\thinspace\arabic{subsubsection}}
+% \def\@seccntformat#1{\csname the#1\endcsname\ }
+% \renewcommand\thesection{\arabic{section}}
+% \renewcommand\thesubsection{\arabic{section}\thinspace.\thinspace\arabic{subsection}}
+% \renewcommand\thesubsubsection{\thesubsection\thinspace.\thinspace\arabic{subsubsection}}
 
-\renewcommand\section{\@startsection{section}{1}{\z@}%
- 	{-3.5ex \@plus -1ex \@minus -.2ex}%
-	{2.3ex \@plus.2ex}%
-	{\centering\Large\bfseries}}
+% \renewcommand\section{\@startsection{section}{1}{\z@}%
+%  	{-3.5ex \@plus -1ex \@minus -.2ex}%
+% 	{2.3ex \@plus.2ex}%
+% 	{\centering\Large\bfseries}}
 
-\renewcommand\subsection{\@startsection{subsection}{2}{\z@}%
-	{-3.25ex\@plus -1ex \@minus -.2ex}%
-	{1.5ex \@plus .2ex}%
-	{\normalfont\large\bfseries}}
+% \renewcommand\subsection{\@startsection{subsection}{2}{\z@}%
+% 	{-3.25ex\@plus -1ex \@minus -.2ex}%
+% 	{1.5ex \@plus .2ex}%
+% 	{\normalfont\large\bfseries}}
 
-\renewcommand\subsubsection{\@startsection{subsubsection}{3}{\z@}%
-	{-3.25ex\@plus -1ex \@minus -.2ex}%
-	{1.5ex \@plus .2ex}%
-	{\normalfont\normalsize\bfseries}}
+% \renewcommand\subsubsection{\@startsection{subsubsection}{3}{\z@}%
+% 	{-3.25ex\@plus -1ex \@minus -.2ex}%
+% 	{1.5ex \@plus .2ex}%
+% 	{\normalfont\normalsize\bfseries}}
 
-\renewcommand\paragraph{\@startsection{paragraph}{4}{\z@}%
-	{3.25ex \@plus1ex \@minus.2ex}%
-	{-1em}%
-	{\normalfont\normalsize\bfseries}}
+% \renewcommand\paragraph{\@startsection{paragraph}{4}{\z@}%
+% 	{3.25ex \@plus1ex \@minus.2ex}%
+% 	{-1em}%
+% 	{\normalfont\normalsize\bfseries}}
     
-\renewcommand\subparagraph{\@startsection{subparagraph}{5}{\parindent}%
-	 {3.25ex \@plus1ex \@minus .2ex}%
-	 {-1em}%
-	 {\normalfont\normalsize\bfseries}}
+% \renewcommand\subparagraph{\@startsection{subparagraph}{5}{\parindent}%
+% 	 {3.25ex \@plus1ex \@minus .2ex}%
+% 	 {-1em}%
+% 	 {\normalfont\normalsize\bfseries}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 宏定义
 % 自定义隐式宏   使用\OOO@define@key{} 命令
@@ -396,6 +437,7 @@
     default = {\the\year-\two@digits{\month}-\two@digits{\day}},
   }
 }
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 自定义显式宏   使用\newcommand和\def和\renewcommand命令
 %% 一些排版的宏(模块化的宏)
@@ -471,6 +513,19 @@
     \endgroup
 }
 
+% 论文、作者相关信息展示
+\newcommand{\class@info@showcase}{%
+  \linespread{0}\selectfont   % 1.5倍行距
+  \setlength{\parskip}{0,5em}   % 段间距
+    \begin{center}
+      {\zihao{-2}\heiti \@title \par}
+      \vskip1ex
+      {\zihao{4}\kaishu \@author \quad \class@tokens@studentnumber \par}
+      \vskip1ex
+      {\zihao{5}\kaishu \class@tokens@school\class@tokens@college \hspace{1em} \class@tokens@province\class@tokens@city \hspace{1em} \class@tokens@postcode \par}
+    \end{center}
+}
+
 % 页码设置相关宏
 %% 第一次调用\section命令时才开始使用阿拉伯数字编码，之前则根据封面页的罗马数字编码
 \let\old@section\section % 保存原始的 \section 命令.将原始 \section 的功能保存到 \old@section 中
@@ -528,43 +583,20 @@
 % }
 
 
-%% 生成定制的标题页，对\maketitle 命令重定义
-% \newcommand{\makeCoursetitle}{\par
-%     \begingroup
-%         \newpage    
-%         \global\@topnum\z@
-%         \@maketitle
-%     \endgroup
-
-%     \global\let\thanks\relax
-%     \global\let\maketitle\relax
-%     \global\let\@maketitle\relax
-%     \global\let\@thanks\@empty
-%     \global\let\@author\@empty
-%     \global\let\@date\@empty
-%     \global\let\@title\@empty
-%     \global\let\title\relax
-%     \global\let\author\relax
-%     \global\let\date\relax
-%     \global\let\and\relax
-% }
-
 \newcommand\class@titlepage@course{
-    \begingroup
-    \null\vskip 8.1pt% 开头给一个占位符然后垂直它8.1pt开始有文本
-    
-    \pagenumbering{Roman}
+    \begingroup % 开始一个局部作用域
+    \pagenumbering{Roman} % 页面计数设置
     \setcounter{page}{1} % 从I开始
+
+    % \null\vskip 8.1pt% 开头给一个占位符然后垂直它8.1pt开始有文本
 
     \if@class@preface %检查布尔变量 @mcm@preface 是否为 true。检查布尔变量 @mcm@preface 是否为 true。
     \null %插入一个“空行”或占位符，确保垂直间距的准确性。常用于调整布局时占位
-    \vskip 62pt%
-    
+    % \vskip 62pt%
     \insertlogo
     % \begin{center}
     %     {\zihao{0}\kaishu \text{\class@tokens@school}}
     % \end{center}\
-
     \null
     \vskip 62pt%
 
@@ -585,14 +617,7 @@
 
 \newcommand\makeanothertitle{
     \newpage
-    \begin{center}
-        {\zihao{-2}\heiti \@title \par}
-        \vskip1ex
-        {\zihao{4}\kaishu \@author \quad \class@tokens@studentnumber \par}
-        \vskip1ex
-        {\zihao{5}\kaishu \class@tokens@school\class@tokens@college \hspace{1em} \class@tokens@province\class@tokens@city \hspace{1em} \class@tokens@postcode \par}
-    \end{center}
-
+    \class@info@showcase
 }
 
 \renewcommand\maketitle{%
