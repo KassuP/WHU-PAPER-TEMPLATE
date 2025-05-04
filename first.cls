@@ -1,6 +1,6 @@
 \NeedsTeXFormat{LaTeX2e}[1995/12/01]
 \ProvidesClass{first}
-    [2025/04/25 V1.0 My First LaTeX Class]
+  [2025/04/25 V1.0 My First LaTeX Class]
 \LoadClass[a4paper, 12pt]{article}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -529,27 +529,28 @@
 
 
 %% 生成定制的标题页，对\maketitle 命令重定义
-\renewcommand{\maketitle}{\par
+% \newcommand{\makeCoursetitle}{\par
+%     \begingroup
+%         \newpage    
+%         \global\@topnum\z@
+%         \@maketitle
+%     \endgroup
+
+%     \global\let\thanks\relax
+%     \global\let\maketitle\relax
+%     \global\let\@maketitle\relax
+%     \global\let\@thanks\@empty
+%     \global\let\@author\@empty
+%     \global\let\@date\@empty
+%     \global\let\@title\@empty
+%     \global\let\title\relax
+%     \global\let\author\relax
+%     \global\let\date\relax
+%     \global\let\and\relax
+% }
+
+\newcommand\class@titlepage@course{
     \begingroup
-        \newpage    
-        \global\@topnum\z@
-        \@maketitle
-    \endgroup
-
-    \global\let\thanks\relax
-    \global\let\maketitle\relax
-    \global\let\@maketitle\relax
-    \global\let\@thanks\@empty
-    \global\let\@author\@empty
-    \global\let\@date\@empty
-    \global\let\@title\@empty
-    \global\let\title\relax
-    \global\let\author\relax
-    \global\let\date\relax
-    \global\let\and\relax
-}
-
-\renewcommand\@maketitle{
     \null\vskip 8.1pt% 开头给一个占位符然后垂直它8.1pt开始有文本
     
     \pagenumbering{Roman}
@@ -567,7 +568,7 @@
     \null
     \vskip 62pt%
 
-    % \class@titlepage@info   
+    % \class@titlepage@info   % 这里之前出现过字体泄露的情况、所以这个宏的开头有个限制作用域的指令
     \fangsong\fontsize{16bp}{31.20bp}\selectfont\class@titlepage@info
 
     \else % 如果\@class@preface 为 false，则跳过 \if 到 \else 之间的代码。执行\else 到 \fi之间的代码 
@@ -579,6 +580,7 @@
     \end{center}\
 
     \makeanothertitle
+    \endgroup
 }
 
 \newcommand\makeanothertitle{
@@ -593,3 +595,6 @@
 
 }
 
+\renewcommand\maketitle{%
+  \class@titlepage@course
+}
