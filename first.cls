@@ -482,13 +482,21 @@
         #5 %
     \end{tabular}%
 }
-\newcommand\class@titlepage@info{%
+\newcommand\class@titlepage@cn@info{%
     \class@titlepage@info@tabular{2.3cm}{2.85cm}{2.75cm}{0.77cm}{%
       \class@info@item{课程名称}{}{\class@tokens@course}%
         \class@info@item{学院}{}{\class@tokens@college}% 
         \class@info@item{指导教师}{}{\class@tokens@advisor}%
         \class@info@item{学生姓名}{}{\@author}%
         \class@info@item{学生学号}{}{\class@tokens@studentnumber}
+    }\par
+}
+\newcommand\class@titlepage@en@info{%
+    \class@titlepage@info@tabular{2.3cm}{2.85cm}{2.75cm}{0.77cm}{%
+      \class@info@item{School}{}{\class@tokens@course}%
+        \class@info@item{Major}{}{\class@tokens@college}% 
+        \class@info@item{Candidate}{}{\class@tokens@advisor}%
+        \class@info@item{Supervisor}{}{\@author}%
     }\par
 }
 
@@ -539,10 +547,16 @@
 
 
 % 图片相关宏
-\newcommand{\class@school@logo}{whuname.png} % 假设图片与 .cls 同目录（换成你学校的logo）
+\newcommand{\class@school@name}{whuname.png} % 假设图片与 .cls 同目录（换成你学校的logo）
+\newcommand{\insertname}{%
+    \begin{center}
+        \includegraphics[width=0.7\textwidth]{\class@school@name}%
+    \end{center}
+}
+\newcommand{\class@school@logo}{whulogo.png} % 假设图片与 .cls 同目录（换成你学校的logo）
 \newcommand{\insertlogo}{%
     \begin{center}
-        \includegraphics[width=0.7\textwidth]{\class@school@logo}%
+        \includegraphics[width=0.4\textwidth]{\class@school@logo}%
     \end{center}
 }
 % 集成的宏（利用模块化的宏）
@@ -582,18 +596,43 @@
 %     \restoregeometry
 % }
 
+\newcommand{\class@titlepage@en@preface}{%
+  \newpage
 
-\newcommand\class@titlepage@course{
+  \begingroup
+    % \thispagestyle{empty} %导致不显示页码
+    \vspace*{0.5cm}
+    \begin{center}
+      {\Large\bfseries BACHELOR'S DEGREE THESIS \par OF WUHAN UNIVERSITY}
+    \end{center}
+    
+    \vspace{1cm}
+    \begin{center}
+      {\fontsize{22pt}{1.5em}\selectfont AAA \par}
+    \end{center}
+  
+    \begin{center}
+      \zihao{4}
+      \class@titlepage@en@info
+      \vspace*{2cm}
+      \insertlogo
+      \par\vspace{1cm}
+      {\scshape Wuhan University}
+    \end{center}
+  \endgroup
+}
+
+\newcommand\class@titlepage@cn@preface{
     \begingroup % 开始一个局部作用域
     \pagenumbering{Roman} % 页面计数设置
     \setcounter{page}{1} % 从I开始
 
     % \null\vskip 8.1pt% 开头给一个占位符然后垂直它8.1pt开始有文本
 
-    \if@class@preface %检查布尔变量 @mcm@preface 是否为 true。检查布尔变量 @mcm@preface 是否为 true。
+    \if@class@preface %检查布尔变量 @mcm@preface 是否为 true。检查布尔变量 @class@preface 是否为 true。
     \null %插入一个“空行”或占位符，确保垂直间距的准确性。常用于调整布局时占位
     % \vskip 62pt%
-    \insertlogo
+    \insertname
     % \begin{center}
     %     {\zihao{0}\kaishu \text{\class@tokens@school}}
     % \end{center}\
@@ -601,17 +640,15 @@
     \vskip 62pt%
 
     % \class@titlepage@info   % 这里之前出现过字体泄露的情况、所以这个宏的开头有个限制作用域的指令
-    \fangsong\fontsize{16bp}{31.20bp}\selectfont\class@titlepage@info
-
-    \else % 如果\@class@preface 为 false，则跳过 \if 到 \else 之间的代码。执行\else 到 \fi之间的代码 
-    \fi 
-
+    \fangsong\fontsize{16bp}{31.20bp}\selectfont\class@titlepage@cn@info
+    
     \vskip 100pt%
     \begin{center}
       \parbox[t][1.03cm][t]{\textwidth}{\centering\class@titlepages@date}\par
     \end{center}\
 
-    \makeanothertitle
+    \else % 如果\@class@preface 为 false，则跳过 \if 到 \else 之间的代码。执行\else 到 \fi之间的代码 
+    \fi 
     \endgroup
 }
 
@@ -621,5 +658,7 @@
 }
 
 \renewcommand\maketitle{%
-  \class@titlepage@course
+  \class@titlepage@cn@preface
+  \class@titlepage@en@preface
+  \makeanothertitle
 }
